@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Monster Killer</title>
+	<link rel="stylesheet" href="style.css">
+	<script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+	<div id="app">
+		<div class="panel scores">
+			<div class="score">
+				<h1>Jogador</h1>
+				<div class="life-bar">
+					<div class="life"
+							:class="{full: playerLife == 100}"
+							:class="{danger: playerLife < 20 }"
+							:style="{width: playerLife +'%'}"></div>
+				</div>
+				<div> {{ playerLife }}% </div>
+			</div>
+			<div class="score">
+				<h1>Monstro</h1>
+				<div class="life-bar">
+					<div class="life"
+							:class="{full: monsterLife == 100}"
+							:class="{danger: monsterLife < 20 }"
+							:style="{width: monsterLife +'%'}"></div>
+				</div>
+				<div> {{ monsterLife }}% </div>
+			</div>
+		</div>
+		<div v-if="hasResult" class="panel result">
+			<div v-if="monsterLife == 0" class="win"> Você ganhou!!!! :) </div>
+			<div v-else class="lost"> Você perdeu :( </div>
+		</div>
+		<div class="panel buttons">
+			<template v-if="started==true">
+				<button @click="attack(false)"
+								class="btn attack"> Atacar </button>
+				<button @click="attack(true)"
+								class="btn special-attack"> Ataque especial </button>
+				<button @click="healAndHurt"
+								class="btn heal"> Curar </button>
+				<button @click="surrenderGame"
+								class="btn surrender"> Desistir </button>
+			</template>
+			<button v-else @click="startGame"
+							class="btn start-game"> Iniciar jogo </button>
+		</div>
+		<div v-if="logs.length"
+				 class="panel logs">
+			<ul>
+				<li	v-for="log in logs"
+						:class="log.cls"
+						class="log">{{ log.text }}				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<script src="app.js"></script>
+</body>
+</html>
